@@ -23,7 +23,7 @@ function setup() {
     createCanvas(dimensions.width*cellsize, dimensions.height*cellsize)
     p = inherit(player,entity)
     enemies = []
-    level = level1
+    level = levelX
 
     spawnEnemies(level,1)
         .forEach( (enemy) => enemies.push(enemy) )
