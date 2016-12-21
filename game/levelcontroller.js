@@ -2,7 +2,7 @@ function getCoordinatesForChar(level,character){
     var coordinates = []
     for(var row = 0; row < level.length; row++){
         for(var col = 0; col < level[row].length; col++){
-            if(level[row][col] == character){
+            if(level[row][col] === character){
                 coordinates.push({x: col, y: row})
             }
         }
@@ -10,17 +10,31 @@ function getCoordinatesForChar(level,character){
     return(coordinates)
 }
 
+function getInteractableAt(x,y){
+    var maybeInteractable = getCoordinatesForChar(level,"$")[0]
+    if(maybeInteractable && maybeInteractable.x == x && maybeInteractable.y == y){
+        return({x: maybeInteractable.x, y: maybeInteractable.y, type: "treasure"})
+    } else {
+        return(undefined)
+    }
+}
+
+function isColliderAt(x,y){
+    var toReturn = false
+    getAllCollidables(level).forEach( (collider) => {
+        if(collider.x == x && collider.y == y) {
+            toReturn = true
+        }
+    })
+    return(toReturn)
+}
+
 function getAllCollidables(level){
-    const collidableChars = ["#"]
+    const collidableChars = ["#", "$"]
     var collidables = []
-    collidableChars.forEach(function(collidable){
+    collidableChars.forEach( (collidable) => {
         collidables.push(getCoordinatesForChar(level,collidable))
     })
-    if(enemies.length > 0){
-        enemies.forEach(function(enemy){
-            collidables.push({x: enemy.x, y: enemy.y})
-        })
-    }
     return([].concat.apply([],collidables))
 }
 
@@ -40,11 +54,11 @@ function spawnEnemies(level, amount){
 }
 
 function drawLevel(level){
-
-    var borders = getCoordinatesForChar(level,"#")
-
-    borders.forEach(function(coordinate){
-        fill("#FFFFFF")
-        rect(coordinate.x*cellsize,coordinate.y*cellsize,cellsize,cellsize)
+    var drawables = ["#", "$"]
+    drawables.forEach( (drawable) => {
+        getCoordinatesForChar(level,drawable).forEach( (coordinate) => {
+            fill(tileColors[drawable])
+            rect(coordinate.x*cellsize,coordinate.y*cellsize,cellsize,cellsize)
+        })
     })
 }

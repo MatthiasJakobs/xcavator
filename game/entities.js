@@ -12,9 +12,17 @@ var entity = {
     },
 
     move: function(offX, offY) {
-        var entityAtPosition = this.entityAt(this.x + offX, this.y + offY)
+        const entityAtPosition = this.entityAt(this.x + offX, this.y + offY)
+        const x = this.x + offX
+        const y = this.y + offY
         if(entityAtPosition){
             this.attack(entityAtPosition)
+        } else if (isColliderAt(x, y)) {
+            var interactable = getInteractableAt(x,y)
+            if(interactable && interactable.type == "treasure"){
+                console.log("Congratulations! You've found a treasure chest!")
+                level[y] = changeStringAtIndex(level[y], x, " ")
+            }
         } else {
             this.x += offX
             this.y += offY
@@ -40,7 +48,7 @@ var entity = {
     entityAt: function(x,y) {
         var entities = enemies.slice()
         entities.push(p)
-        entities.forEach(function(entity){
+        entities.forEach( (entity) => {
             if(entity.x == x && entity.y == y){
                 return(entity)
             }
@@ -56,7 +64,7 @@ var enemy =  {
     type: "enemy",
 
     move: function() {
-        this.simplePathfind()
+        //this.simplePathfind()
     },
 
     simplePathfind: function() {
@@ -86,22 +94,4 @@ var player = {
     y: 2,
     color: "#00FF00",
     type: "player",
-}
-
-function inherit(child,parent){
-	var intermediate = {}
-	Object.assign(intermediate, child)
-	Object.assign(child, parent)
-	Object.assign(child, intermediate)
-    intermediate = {}
-    Object.assign(intermediate, child)
-    return intermediate
-
-}
-
-
-
-function distance(from,to){
-    const vector = { x: to.x-from.x, y: to.y-from.y}
-    return(Math.sqrt(Math.pow(vector.x,2) + Math.pow(vector.y,2)))
 }
