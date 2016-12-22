@@ -112,7 +112,6 @@ var enemy =  {
             if(possibleEntity){
                 if(possibleEntity.type === "player"){
                     this.attack(possibleEntity)
-                    console.log(possibleEntity.hp)
                     writeToStatusbar("You've got attacked! Remaining HP: " + possibleEntity.hp)
                     return(true)
                 }
