@@ -126,9 +126,7 @@ var enemy =  {
                 if(!isColliderAt(x,y)){
                     this.x += randomMove.x
                     this.y += randomMove.y
-                } else {
-                    console.log('would move into wall')
-                }
+                } 
             }
         }
     }
