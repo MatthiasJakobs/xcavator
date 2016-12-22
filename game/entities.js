@@ -141,10 +141,10 @@ var enemy =  {
             }
         }
     },
-    
+
     antPathfind : function () {
         const playerPosition = {x: p.x, y: p.y}
-        
+
         var canStillMove = true
         for(var o = 0; o < possibleMoves.length; o++){
             var move = possibleMoves[o]
@@ -167,7 +167,7 @@ var enemy =  {
                          y: this.y + possibleMoves[this.orientation].y}
             // measure distance again
             var newDist = distance(moved, playerPosition)
-            
+
             if (newDist > oldDist) {
                 // player is now further away than before, so turn around!
                 this.orientation = (this.orientation + 2) % 4
@@ -175,14 +175,14 @@ var enemy =  {
                 // scent got stronger, keep on course or try left or right!
                 this.orientation = (this.orientation + 3 + Math.floor(Math.random() * 3)) % 4
             }
-            
+
             if(!isColliderAt(moved.x, moved.y) && this.entityAt(moved.x, moved.y) == undefined){
                 this.x = moved.x
                 this.y = moved.y
             }
         }
     },
-    
+
     moveRandom : function () {
         // move around randomly
         const moveIndex = floor(random(possibleMoves.length + 10))
@@ -198,8 +198,8 @@ var enemy =  {
             }
         }
     }
-    
-    
+
+
 }
 
 var player = {
@@ -212,10 +212,10 @@ var player = {
 
     show: function() {
         const viewRadius = 3
-        var left = Math.max(x-viewRadius, 0)
-        var right = Math.min(x+viewRadius, dimensions.width)
-        var top = Math.max(0, y-viewRadius)
-        var bottom = Math.min(y+viewRadius, dimensions.height)
+        var left = Math.max(this.x-viewRadius, 0)
+        var right = Math.min(this.x+viewRadius, dimensions.width)
+        var top = Math.max(0, this.y-viewRadius)
+        var bottom = Math.min(this.y+viewRadius, dimensions.height)
 
         for(var y = top; y < bottom; y++){
             for(var x = left; x < right; x++){

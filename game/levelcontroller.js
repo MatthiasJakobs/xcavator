@@ -66,16 +66,15 @@ function drawLevel(level){
 }
 
 function drawViewMask(){
-    console.log(viewMask)
     for (var y = 0; y < dimensions.height; y++){
         for (var x = 0; x < dimensions.width; x++){
             if(!viewMask[y][x]){
-                fill("#000000FF")
+                fill(0)
+                rect(x*cellsize, y*cellsize, cellsize,cellsize)
             } else {
-                fill("#00000000")
+                //fill(255)
             }
 
-            rect(x*cellsize, y*cellsize, cellsize,cellsize)
         }
     }
 }
