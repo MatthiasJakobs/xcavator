@@ -140,4 +140,21 @@ var player = {
     hp: 30,
     color: "#00FF00",
     type: "player",
+
+    show: function() {
+        const viewRadius = 3
+        var left = Math.max(x-viewRadius, 0)
+        var right = Math.min(x+viewRadius, dimensions.width)
+        var top = Math.max(0, y-viewRadius)
+        var bottom = Math.min(y+viewRadius, dimensions.height)
+
+        for(var y = top; y < bottom; y++){
+            for(var x = left; x < right; x++){
+                viewMask[y][x] = true
+            }
+        }
+
+        fill(this.color)
+        rect(this.x*cellsize, this.y*cellsize, cellsize, cellsize)
+    }
 }

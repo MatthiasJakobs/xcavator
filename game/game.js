@@ -2,6 +2,7 @@ var p;
 var enemies;
 var level;
 var needsRedraw = true
+var viewMask;
 
 function draw() {
     if(needsRedraw){
@@ -25,6 +26,9 @@ function draw() {
             alert("you died")
             location.reload()
         }
+        
+        drawViewMask()
+
         needsRedraw = false
     }
 }
@@ -32,6 +36,16 @@ function draw() {
 function setup() {
     createCanvas(dimensions.width*cellsize, dimensions.height*cellsize)
     p = inherit(player,entity)
+
+    viewMask = []
+    for (var y = 0; y < dimensions.height; y++){
+        viewMask[y] = []
+        for (var x = 0; x < dimensions.width; x++){
+            viewMask[y].push(false)
+        }
+    }
+
+
     enemies = []
     level = level2
 
