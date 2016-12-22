@@ -108,8 +108,9 @@ var enemy =  {
                         bestMove = possibleMoves[i]
                     }
                 }
-
-                if(this.entityAt(bestMove.x + this.x, bestMove.y + this.y) == undefined){
+                var x = this.x + bestMove.x
+                var y = this.y + bestMove.y
+                if(!isColliderAt(x,y) && this.entityAt(x,y) == undefined){
                     this.x += bestMove.x
                     this.y += bestMove.y
                 }
@@ -126,7 +127,7 @@ var enemy =  {
                 if(!isColliderAt(x,y)){
                     this.x += randomMove.x
                     this.y += randomMove.y
-                } 
+                }
             }
         }
     }
