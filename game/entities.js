@@ -105,12 +105,7 @@ var enemy =  {
         }
     },
 
-    simplePathfind: function() {
-        // simple pathfinding
-
-        const playerPosition = {x: p.x, y: p.y}
-
-        var canStillMove = true
+    didAttack: function() {
         for(var o = 0; o < possibleMoves.length; o++){
             var move = possibleMoves[o]
             var possibleEntity = this.entityAt(move.x + this.x, move.y + this.y)
@@ -118,15 +113,20 @@ var enemy =  {
                 console.log("player attacked")
                 if(possibleEntity.type === "player"){
                     this.attack(possibleEntity)
-                    canStillMove = false
-                    break;
+                    return(true)
                 }
             }
         }
+        return(false)
+    },
 
-        if(canStillMove){
+    simplePathfind: function() {
+        // simple pathfinding
+
+        const playerPosition = {x: p.x, y: p.y}
+
+        if(!this.didAttack()){
             var bestMove = {x: 0, y: 0}
-
             for(var i = 0; i < possibleMoves.length; i++){
                 var newMove = {x: this.x + possibleMoves[i].x, y: this.y + possibleMoves[i].y}
                 if(distance(newMove,playerPosition)<=distance({x: this.x + bestMove.x, y: this.y + bestMove.y },playerPosition)){
@@ -144,22 +144,7 @@ var enemy =  {
 
     antPathfind : function () {
         const playerPosition = {x: p.x, y: p.y}
-
-        var canStillMove = true
-        for(var o = 0; o < possibleMoves.length; o++){
-            var move = possibleMoves[o]
-            var possibleEntity = this.entityAt(move.x + this.x, move.y + this.y)
-            if(possibleEntity){
-                console.log("player attacked")
-                if(possibleEntity.type === "player"){
-                    this.attack(possibleEntity)
-                    canStillMove = false
-                    break;
-                }
-            }
-        }
-
-        if(canStillMove){
+        if(!this.didAttack()){
             // measure distance
             var oldDist = distance({x: this.x, y: this.y}, playerPosition)
             // take step into direction of current orientation
