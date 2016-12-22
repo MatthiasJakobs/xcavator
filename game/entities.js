@@ -196,7 +196,6 @@ var player = {
     type: "player",
 
     show: function() {
-        const viewRadius = 3
         var left = Math.max(this.x-viewRadius, 0)
         var right = Math.min(this.x+viewRadius, dimensions.width)
         var top = Math.max(0, this.y-viewRadius)

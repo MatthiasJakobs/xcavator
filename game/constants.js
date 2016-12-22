@@ -5,3 +5,5 @@ const tileColors = {
     "#": "#FFFFFF",
     "$": "#FFFF00"
 }
+
+const viewRadius = 5
