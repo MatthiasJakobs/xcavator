@@ -11,9 +11,11 @@ function getCoordinatesForChar(level,character){
 }
 
 function getInteractableAt(x,y){
-    var maybeInteractable = getCoordinatesForChar(level,"$")[0]
-    if(maybeInteractable && maybeInteractable.x == x && maybeInteractable.y == y){
-        return({x: maybeInteractable.x, y: maybeInteractable.y, type: "treasure"})
+    var interactable = getCoordinatesForChar(level,'$').filter( (char) => {
+        return(char.x == x && char.y == y)
+    })
+    if(interactable.length > 0){
+        return({x: interactable[0].x, y: interactable[0].y, type: "treasure"})
     } else {
         return(undefined)
     }
