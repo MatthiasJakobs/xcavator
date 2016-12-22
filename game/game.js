@@ -2,10 +2,9 @@ var p;
 var enemies;
 var level;
 var needsRedraw = true
-var gameHasEnded = false
 
 function draw() {
-    if(needsRedraw && !gameHasEnded){
+    if(needsRedraw){
 
         background(0)
         frameRate(30)
@@ -24,7 +23,7 @@ function draw() {
             p.show()
         } else {
             alert("you died")
-            gameHasEnded = true
+            location.reload()
         }
         needsRedraw = false
     }

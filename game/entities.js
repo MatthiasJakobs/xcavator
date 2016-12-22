@@ -117,7 +117,7 @@ var player = {
     x: 2,
     y: 2,
     attackPower: 10,
-    hp: 100,
+    hp: 10,
     color: "#00FF00",
     type: "player",
 }
