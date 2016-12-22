@@ -196,10 +196,10 @@ var player = {
     type: "player",
 
     show: function() {
-        var left = Math.max(this.x-viewRadius, 0)
-        var right = Math.min(this.x+viewRadius, dimensions.width)
-        var top = Math.max(0, this.y-viewRadius)
-        var bottom = Math.min(this.y+viewRadius, dimensions.height)
+        const left = Math.max(this.x-viewRadius, 0)
+        const right = Math.min(this.x+viewRadius, dimensions.width)
+        const top = Math.max(this.y-viewRadius,0)
+        const bottom = Math.min(this.y+viewRadius, dimensions.height)
 
         for(var y = top; y < bottom; y++){
             for(var x = left; x < right; x++){
