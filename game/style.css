@@ -1,14 +1,21 @@
 canvas {
-    padding: 0;
-    margin: auto;
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: auto;
+    margin-right: auto;
     display: block;
-    width: 800px;
-    height: 600px;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    width: 640;
+}
+
+#statusbar {
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    width: 640;
+    text-align: center;
+    background-color: rgb(255,255,255)
 }
 
 body {

@@ -26,15 +26,16 @@ function draw() {
             alert("you died")
             location.reload()
         }
-        
-        drawViewMask()
+
+        //drawViewMask()
 
         needsRedraw = false
     }
 }
 
 function setup() {
-    createCanvas(dimensions.width*cellsize, dimensions.height*cellsize)
+    var canvas = createCanvas(dimensions.width*cellsize, dimensions.height*cellsize)
+    canvas.parent("canvas")
     p = inherit(player,entity)
 
     viewMask = []
