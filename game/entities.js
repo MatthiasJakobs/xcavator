@@ -106,7 +106,7 @@ var enemy =  {
     },
 
     simplePathfind: function() {
-        // simple pathfinding (NOT COLLISIONPROOF!)
+        // simple pathfinding
 
         const playerPosition = {x: p.x, y: p.y}
 
