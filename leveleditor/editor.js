@@ -7,6 +7,17 @@ var representation = {
     "#FFFF00": "$"
 }
 
+function listenForMouseClicks(){
+    if(mouseIsPressed){
+        var x = floor(pmouseX/cellsize)
+        var y = floor(pmouseY/cellsize)
+
+        if(x < dimensions.width && y < dimensions.height){
+            arrayRepresentation[y][x] = this.currentDrawingItem
+        }
+    }
+}
+
 function draw() {
     frameRate(30)
     background(52)
@@ -22,14 +33,8 @@ function draw() {
         }
     }
 
-    if(mouseIsPressed){
-        var x = floor(pmouseX/cellsize)
-        var y = floor(pmouseY/cellsize)
+    listenForMouseClicks()
 
-        if(x < dimensions.width && y < dimensions.height){
-            arrayRepresentation[y][x] = this.currentDrawingItem
-        }
-    }
 }
 
 function setDrawingColor(color){
