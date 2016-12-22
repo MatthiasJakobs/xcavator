@@ -14,7 +14,7 @@ function draw() {
 
         for(var i = enemies.length-1; i >= 0; i--){
             if(enemies[i].needsDestroy){
-                console.log("enemy died")
+                writeToStatusbar("You've killed an Enemy!")
                 enemies.splice(i,1)
             } else {
                 enemies[i].show()
@@ -27,7 +27,7 @@ function draw() {
             location.reload()
         }
 
-        //drawViewMask()
+        drawViewMask()
 
         needsRedraw = false
     }
@@ -52,6 +52,11 @@ function setup() {
 
     spawnEnemies(level,5)
         .forEach( (enemy) => enemies.push(enemy) )
+}
+
+function writeToStatusbar(text){
+    var statusbar = document.getElementById('statusbar')
+    statusbar.innerHTML = text
 }
 
 function keyPressed(){

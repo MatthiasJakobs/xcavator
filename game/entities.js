@@ -110,9 +110,10 @@ var enemy =  {
             var move = possibleMoves[o]
             var possibleEntity = this.entityAt(move.x + this.x, move.y + this.y)
             if(possibleEntity){
-                console.log("player attacked")
                 if(possibleEntity.type === "player"){
                     this.attack(possibleEntity)
+                    console.log(possibleEntity.hp)
+                    writeToStatusbar("You've got attacked! Remaining HP: " + possibleEntity.hp)
                     return(true)
                 }
             }
