@@ -1,3 +1,9 @@
+const possibleMoves = [
+    {x: 1, y: 0},
+    {x: 0, y: 1},
+    {x: -1, y: 0},
+    {x: 0, y: -1} ]
+
 var entity = {
     x: 0,
     y: 0,
@@ -63,12 +69,40 @@ var entity = {
 var enemy =  {
     x: 0,
     y: 0,
-    color: "#FF00FF",
+    orientation: Math.floor(Math.random() * 4), // for antPathFind
+    color: "#770077",
     type: "enemy",
-    spottingDistance: 10,
+    spottingDistance: 8,
+    smellingDistance: 15,
 
     move: function() {
-        this.simplePathfind()
+        /* choose pathfinding algorithm depending on distance:
+         *  - within smellingDistance:
+         *    enemy can "smell" player and tries to approach them
+         *    by randomly walking in a direction to check if the
+         *    smell gets stronger
+         *  - within spottingDistance:
+         *    enemy can see player and comes "running" towards them
+         *  - within neither:
+         *    enemy moves around randomly
+         */
+        const playerPosition = {x: p.x, y: p.y};
+        var dist = distance({x: this.x, y: this.y}, playerPosition);
+        if (dist <= this.smellingDistance) {
+            if (dist <= this.spottingDistance) {
+                // enemy has spotted player
+                this.color = "#FF0055"
+                this.simplePathfind();
+            } else {
+                // enemy can only smell player
+                this.color = "#BB0066"
+                this.antPathfind();
+            }
+        } else {
+            // enemy can neither see nor smell player
+            this.color = "#770077"
+            this.moveRandom();
+        }
     },
 
     simplePathfind: function() {
@@ -76,61 +110,96 @@ var enemy =  {
 
         const playerPosition = {x: p.x, y: p.y}
 
-        const possibleMoves = [
-            {x: 1, y: 0},
-            {x: -1, y: 0},
-            {x: 0, y: -1},
-            {x: 0, y:1}
-        ]
-
-        if(distance({x: this.x, y: this.y}, playerPosition) <= this.spottingDistance){
-
-            var canStillMove = true
-            for(var o = 0; o < possibleMoves.length; o++){
-                var move = possibleMoves[o]
-                var possibleEntity = this.entityAt(move.x + this.x, move.y + this.y)
-                if(possibleEntity){
-                    console.log("player attacked")
-                    if(possibleEntity.type === "player"){
-                        this.attack(possibleEntity)
-                        canStillMove = false
-                        break;
-                    }
-                }
-            }
-
-            if(canStillMove){
-                var bestMove = {x: 0, y: 0}
-
-                for(var i = 0; i < possibleMoves.length; i++){
-                    var newMove = {x: this.x + possibleMoves[i].x, y: this.y + possibleMoves[i].y}
-                    if(distance(newMove,playerPosition)<=distance({x: this.x + bestMove.x, y: this.y + bestMove.y },playerPosition)){
-                        bestMove = possibleMoves[i]
-                    }
-                }
-                var x = this.x + bestMove.x
-                var y = this.y + bestMove.y
-                if(!isColliderAt(x,y) && this.entityAt(x,y) == undefined){
-                    this.x += bestMove.x
-                    this.y += bestMove.y
-                }
-            }
-        } else {
-            // move around a bit
-            const moveIndex = floor(random(possibleMoves.length + 10))
-
-            if(moveIndex < possibleMoves.length){
-                const randomMove = possibleMoves[moveIndex]
-                const x = this.x + randomMove.x
-                const y = this.y + randomMove.y
-
-                if(!isColliderAt(x,y)){
-                    this.x += randomMove.x
-                    this.y += randomMove.y
+        var canStillMove = true
+        for(var o = 0; o < possibleMoves.length; o++){
+            var move = possibleMoves[o]
+            var possibleEntity = this.entityAt(move.x + this.x, move.y + this.y)
+            if(possibleEntity){
+                console.log("player attacked")
+                if(possibleEntity.type === "player"){
+                    this.attack(possibleEntity)
+                    canStillMove = false
+                    break;
                 }
             }
         }
+
+        if(canStillMove){
+            var bestMove = {x: 0, y: 0}
+
+            for(var i = 0; i < possibleMoves.length; i++){
+                var newMove = {x: this.x + possibleMoves[i].x, y: this.y + possibleMoves[i].y}
+                if(distance(newMove,playerPosition)<=distance({x: this.x + bestMove.x, y: this.y + bestMove.y },playerPosition)){
+                    bestMove = possibleMoves[i]
+                }
+            }
+            var x = this.x + bestMove.x
+            var y = this.y + bestMove.y
+            if(!isColliderAt(x,y) && this.entityAt(x,y) == undefined){
+                this.x += bestMove.x
+                this.y += bestMove.y
+            }
+        }
+    },
+    
+    antPathfind : function () {
+        const playerPosition = {x: p.x, y: p.y}
+        
+        var canStillMove = true
+        for(var o = 0; o < possibleMoves.length; o++){
+            var move = possibleMoves[o]
+            var possibleEntity = this.entityAt(move.x + this.x, move.y + this.y)
+            if(possibleEntity){
+                console.log("player attacked")
+                if(possibleEntity.type === "player"){
+                    this.attack(possibleEntity)
+                    canStillMove = false
+                    break;
+                }
+            }
+        }
+
+        if(canStillMove){
+            // measure distance
+            var oldDist = distance({x: this.x, y: this.y}, playerPosition)
+            // take step into direction of current orientation
+            var moved = {x: this.x + possibleMoves[this.orientation].x,
+                         y: this.y + possibleMoves[this.orientation].y}
+            // measure distance again
+            var newDist = distance(moved, playerPosition)
+            
+            if (newDist > oldDist) {
+                // player is now further away than before, so turn around!
+                this.orientation = (this.orientation + 2) % 4
+            } else {
+                // scent got stronger, keep on course or try left or right!
+                this.orientation = (this.orientation + 3 + Math.floor(Math.random() * 3)) % 4
+            }
+            
+            if(!isColliderAt(moved.x, moved.y) && this.entityAt(moved.x, moved.y) == undefined){
+                this.x = moved.x
+                this.y = moved.y
+            }
+        }
+    },
+    
+    moveRandom : function () {
+        // move around randomly
+        const moveIndex = floor(random(possibleMoves.length + 10))
+
+        if(moveIndex < possibleMoves.length){
+            const randomMove = possibleMoves[moveIndex]
+            const x = this.x + randomMove.x
+            const y = this.y + randomMove.y
+
+            if(!isColliderAt(x,y)){
+                this.x += randomMove.x
+                this.y += randomMove.y
+            }
+        }
     }
+    
+    
 }
 
 var player = {
