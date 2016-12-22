@@ -47,7 +47,7 @@ function setup() {
 
 
     enemies = []
-    level = level2
+    level = level3
 
     spawnEnemies(level,5)
         .forEach( (enemy) => enemies.push(enemy) )
