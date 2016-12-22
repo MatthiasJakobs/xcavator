@@ -2,8 +2,8 @@ var entity = {
     x: 0,
     y: 0,
     color: "#FF00FF",
-    attackPower: 10,
-    hp: 100,
+    attackPower: 3,
+    hp: 20,
     needsDestroy: false,
 
     setTo: function(x,y) {
@@ -12,9 +12,9 @@ var entity = {
     },
 
     move: function(offX, offY) {
-        const entityAtPosition = this.entityAt(this.x + offX, this.y + offY)
         const x = this.x + offX
         const y = this.y + offY
+        var entityAtPosition = this.entityAt(x, y)
         if(entityAtPosition){
             this.attack(entityAtPosition)
         } else if (isColliderAt(x, y)) {
@@ -48,12 +48,15 @@ var entity = {
     entityAt: function(x,y) {
         var entities = enemies.slice()
         entities.push(p)
+
+        var entityToReturn = undefined
+
         entities.forEach( (entity) => {
             if(entity.x == x && entity.y == y){
-                return(entity)
+                entityToReturn = entity
             }
         })
-        return(undefined)
+        return(entityToReturn)
     }
 }
 
@@ -64,12 +67,11 @@ var enemy =  {
     type: "enemy",
 
     move: function() {
-        //this.simplePathfind()
+        this.simplePathfind()
     },
 
     simplePathfind: function() {
         // simple pathfinding (NOT COLLISIONPROOF!)
-
         const playerPosition = {x: p.x, y: p.y}
 
         const possibleMoves = [
@@ -79,11 +81,33 @@ var enemy =  {
             {x: 0, y:1}
         ]
 
-        var bestMove = {x: 0, y: 0}
-        for(var i = 0; i < possibleMoves.length; i++){
-            var newMove = {x: this.x + possibleMoves[i].x, y: this.y + possibleMoves[i].y}
-            if(distance(newMove,playerPosition)<=distance({x: this.x + bestMove.x, y: this.y + bestMove.y },playerPosition)){
-                bestMove = possibleMoves[i]
+        var canStillMove = true
+        for(var o = 0; o < possibleMoves.length; o++){
+            var move = possibleMoves[o]
+            var possibleEntity = this.entityAt(move.x + this.x, move.y + this.y)
+            if(possibleEntity){
+                console.log("player attacked")
+                if(possibleEntity.type === "player"){
+                    this.attack(possibleEntity)
+                    canStillMove = false
+                    break;
+                }
+            }
+        }
+
+        if(canStillMove){
+            var bestMove = {x: 0, y: 0}
+
+            for(var i = 0; i < possibleMoves.length; i++){
+                var newMove = {x: this.x + possibleMoves[i].x, y: this.y + possibleMoves[i].y}
+                if(distance(newMove,playerPosition)<=distance({x: this.x + bestMove.x, y: this.y + bestMove.y },playerPosition)){
+                    bestMove = possibleMoves[i]
+                }
+            }
+
+            if(this.entityAt(bestMove.x + this.x, bestMove.y + this.y) == undefined){
+                this.x += bestMove.x
+                this.y += bestMove.y
             }
         }
     }
@@ -92,6 +116,8 @@ var enemy =  {
 var player = {
     x: 2,
     y: 2,
+    attackPower: 10,
+    hp: 100,
     color: "#00FF00",
     type: "player",
 }

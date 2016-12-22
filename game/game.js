@@ -2,19 +2,30 @@ var p;
 var enemies;
 var level;
 var needsRedraw = true
+var gameHasEnded = false
 
 function draw() {
-    if(needsRedraw){
+    if(needsRedraw && !gameHasEnded){
 
         background(0)
         frameRate(30)
         noStroke()
         drawLevel(level)
 
-        enemies.forEach( (enemy) => enemy.show() )
-
-        p.show()
-
+        for(var i = enemies.length-1; i >= 0; i--){
+            if(enemies[i].needsDestroy){
+                console.log("enemy died")
+                enemies.splice(i,1)
+            } else {
+                enemies[i].show()
+            }
+        }
+        if(!p.needsDestroy){
+            p.show()
+        } else {
+            alert("you died")
+            gameHasEnded = true
+        }
         needsRedraw = false
     }
 }
@@ -23,9 +34,9 @@ function setup() {
     createCanvas(dimensions.width*cellsize, dimensions.height*cellsize)
     p = inherit(player,entity)
     enemies = []
-    level = levelX
+    level = level1
 
-    spawnEnemies(level,1)
+    spawnEnemies(level,5)
         .forEach( (enemy) => enemies.push(enemy) )
 }
 
@@ -44,6 +55,8 @@ function keyPressed(){
     } else if (keyCode == 76 || keyCode == RIGHT_ARROW || keyCode == 68){
         p.move(1,0)
     }
+
+    enemies.forEach( (enemy) => enemy.move())
 
     needsRedraw = true
 
