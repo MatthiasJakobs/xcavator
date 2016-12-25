@@ -1,6 +1,3 @@
-var arrayRepresentation;
-var currentDrawingItem;
-
 var representation = {
     "#000000": " ",
     "#FFFFFF": "#",
@@ -13,7 +10,7 @@ function listenForMouseClicks(){
         var y = floor(pmouseY/cellsize)
 
         if(x < dimensions.width && y < dimensions.height){
-            arrayRepresentation[y][x] = this.currentDrawingItem
+            arrayRepresentation[y][x] = currentDrawingColor
         }
     }
 }
@@ -24,23 +21,12 @@ function draw() {
     noFill()
     stroke(255)
 
-    for (var y = 0; y < dimensions.height; y++){
-        for (var x = 0; x < dimensions.width; x++){
-            if(arrayRepresentation[y][x]){
-                fill(arrayRepresentation[y][x])
-            }
-            rect(x*cellsize, y*cellsize, cellsize, cellsize)
-        }
-    }
+    populateGrid(dimensions.width, dimensions.height, cellsize)
 
     listenForMouseClicks()
 
 }
 
-function setDrawingColor(color){
-    currentDrawingItem = color
-    console.log("current drawing color: ", color)
-}
 
 function drawWall(){
     setDrawingColor("#FFFFFF")
@@ -71,7 +57,7 @@ function exportToJS(){
 function setup() {
     createCanvas(dimensions.width*cellsize, dimensions.height*cellsize)
 
-    currentDrawingItem = "#000000"
+    currentDrawingColor = "#000000"
 
     var whiteButton = createButton("Wall")
     whiteButton.mousePressed(drawWall)
@@ -85,11 +71,6 @@ function setup() {
     var removeButton = createButton("Erase")
     removeButton.mousePressed(erase)
 
-    arrayRepresentation = []
-    for (var y = 0; y < dimensions.height; y++){
-        arrayRepresentation[y] = []
-        for (var x = 0; x < dimensions.width; x++){
-            arrayRepresentation[y].push("#000000")
-        }
-    }
+    setupGrid(dimensions.width, dimensions.height, "#000000")
+
 }
