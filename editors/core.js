@@ -14,6 +14,7 @@ function populateGrid(gridWidth, gridHeight, scale) {
 
 function setDrawingColor(color){
     currentDrawingColor = color
+    updateCursorColor()
     console.log("current drawing color: ", color)
 }
 
@@ -25,4 +26,21 @@ function setupGrid(gridWidth, gridHeight, defaultColor){
             arrayRepresentation[y].push(defaultColor)
         }
     }
+}
+
+function updateCursorColor(){
+    var cursor = document.createElement('canvas')
+    var ctx = cursor.getContext('2d')
+    let cursorWidth = 12
+    let cursorHeight = 12
+
+    cursor.width = cursorWidth
+    cursor.height = cursorHeight
+
+    ctx.fillStyle = currentDrawingColor
+
+    ctx.fillRect(0,0,cursorWidth,cursorHeight)
+
+    document.querySelector("canvas").style.cursor = 'url(' + cursor.toDataURL() + '), auto'
+
 }

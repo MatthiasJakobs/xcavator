@@ -35,6 +35,7 @@ function createNewButton(color){
 function setToColor(color){
     return function(){
         currentDrawingColor = color
+        updateCursorColor()
     }
 }
 
