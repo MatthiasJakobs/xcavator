@@ -201,15 +201,24 @@ var player = {
             this.attack(entityAtPosition)
         } else if (isColliderAt(x, y)) {
             var interactable = getInteractableAt(x,y)
-            if(interactable && interactable.type == "treasure"){
-                // in 50% of the cases, heal the player by a certain amount
+            if(interactable) {
+                switch(interactable.type) {
+                    case "treasure":
+                        // in 50% of the cases, heal the player by a certain amount
 
-                let shouldHeal = Math.round(Math.random()) == 1? true : false
-                if(shouldHeal){
-                    this.hp += 10
-                    writeToStatusbar("You found a healthpack!")
-                } else {
-                    writeToStatusbar("You found nothing...")
+                        let shouldHeal = Math.round(Math.random()) == 1? true : false
+                        if(shouldHeal){
+                            this.hp += 10
+                            writeToStatusbar("You found a healthpack!")
+                        } else {
+                            writeToStatusbar("You found nothing...")
+                        }
+                        break
+                    case "door":
+                        location.reload()
+                        break
+                    default:
+                        console.log("found interactable, but did not specify type")
                 }
 
                 level[y] = changeStringAtIndex(level[y], x, " ")

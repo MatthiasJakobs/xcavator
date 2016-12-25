@@ -1,7 +1,8 @@
 var representation = {
     "#000000": " ",
     "#FFFFFF": "#",
-    "#FFFF00": "$"
+    "#FFFF00": "$",
+    "#996600": "D"
 }
 
 function listenForMouseClicks(){
@@ -40,6 +41,10 @@ function erase(){
     setDrawingColor("#000000")
 }
 
+function drawDoor(){
+    setDrawingColor("#996600")
+}
+
 function exportToJS(){
     var output = []
     var test = arrayRepresentation.forEach( (row) => {
@@ -64,6 +69,9 @@ function setup() {
 
     var yellowButton = createButton("Treasure")
     yellowButton.mousePressed(drawTreasure)
+
+    var brownButton = createButton("Door")
+    brownButton.mousePressed(drawDoor)
 
     var exportButton = createButton("export")
     exportButton.mousePressed(exportToJS)

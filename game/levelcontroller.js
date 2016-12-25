@@ -11,14 +11,21 @@ function getCoordinatesForChar(level,character){
 }
 
 function getInteractableAt(x,y){
-    var interactable = getCoordinatesForChar(level,'$').filter( (char) => {
+    var interactable = getAllInteractables().filter( (char) => {
         return(char.x == x && char.y == y)
+    }).map( possibleObject => {
+        switch (level[possibleObject.y][possibleObject.x]) {
+            case "$":
+                return({x: possibleObject.x, y: possibleObject.y, type: "treasure"})
+                break;
+            case "D":
+                return({x: possibleObject.x, y: possibleObject.y, type: "door"})
+                break;
+            default:
+                return(undefined)
+        }
     })
-    if(interactable.length > 0){
-        return({x: interactable[0].x, y: interactable[0].y, type: "treasure"})
-    } else {
-        return(undefined)
-    }
+    return(interactable[0])
 }
 
 function isColliderAt(x,y){
@@ -32,12 +39,21 @@ function isColliderAt(x,y){
 }
 
 function getAllCollidables(level){
-    const collidableChars = ["#", "$"]
+    const collidableChars = ["#", "$", "D"]
     var collidables = []
     collidableChars.forEach( (collidable) => {
         collidables.push(getCoordinatesForChar(level,collidable))
     })
     return([].concat.apply([],collidables))
+}
+
+function getAllInteractables(){
+    const interactableChars = ["$", "D"]
+    var interactables = []
+    interactableChars.forEach( interactable => {
+        interactables.push(getCoordinatesForChar(level, interactable))
+    })
+    return([].concat.apply([],interactables))
 }
 
 function spawnEnemies(level, amount){
@@ -56,7 +72,7 @@ function spawnEnemies(level, amount){
 }
 
 function drawLevel(level){
-    var drawables = ["#", "$"]
+    var drawables = ["#", "$", "D"]
     drawables.forEach( (drawable) => {
         getCoordinatesForChar(level,drawable).forEach( (coordinate) => {
             fill(tileColors[drawable])
