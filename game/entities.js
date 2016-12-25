@@ -17,24 +17,6 @@ var entity = {
         this.y = y
     },
 
-    move: function(offX, offY) {
-        const x = this.x + offX
-        const y = this.y + offY
-        var entityAtPosition = this.entityAt(x, y)
-        if(entityAtPosition){
-            this.attack(entityAtPosition)
-        } else if (isColliderAt(x, y)) {
-            var interactable = getInteractableAt(x,y)
-            if(interactable && interactable.type == "treasure"){
-                console.log("Congratulations! You've found a treasure chest!")
-                level[y] = changeStringAtIndex(level[y], x, " ")
-            }
-        } else {
-            this.x += offX
-            this.y += offY
-        }
-    },
-
     show: function() {
         fill(this.color)
         rect(this.x*cellsize, this.y*cellsize, cellsize, cellsize)
@@ -209,5 +191,32 @@ var player = {
 
         fill(this.color)
         rect(this.x*cellsize, this.y*cellsize, cellsize, cellsize)
+    },
+
+    move: function(offX, offY) {
+        const x = this.x + offX
+        const y = this.y + offY
+        var entityAtPosition = this.entityAt(x, y)
+        if(entityAtPosition){
+            this.attack(entityAtPosition)
+        } else if (isColliderAt(x, y)) {
+            var interactable = getInteractableAt(x,y)
+            if(interactable && interactable.type == "treasure"){
+                // in 50% of the cases, heal the player by a certain amount
+
+                let shouldHeal = Math.round(Math.random()) == 1? true : false
+                if(shouldHeal){
+                    this.hp += 10
+                    writeToStatusbar("You found a healthpack!")
+                } else {
+                    writeToStatusbar("You found nothing...")
+                }
+
+                level[y] = changeStringAtIndex(level[y], x, " ")
+            }
+        } else {
+            this.x += offX
+            this.y += offY
+        }
     }
 }
