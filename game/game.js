@@ -11,6 +11,7 @@ function draw() {
         frameRate(30)
         noStroke()
         drawLevel()
+        updateHud()
 
         for(var i = enemies.length-1; i >= 0; i--){
             if(enemies[i].needsDestroy){
@@ -57,6 +58,11 @@ function setup() {
 function writeToStatusbar(text){
     var statusbar = document.getElementById('statusbar')
     statusbar.innerHTML = text
+}
+
+function updateHud(){
+    var hud = document.getElementById('hudbar')
+    hud.innerHTML = p.hp + " HP"
 }
 
 function keyPressed(){
