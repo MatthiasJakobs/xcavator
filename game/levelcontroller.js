@@ -1,4 +1,4 @@
-function getCoordinatesForChar(level,character){
+function getCoordinatesForChar(character){
     var coordinates = []
     for(var row = 0; row < level.length; row++){
         for(var col = 0; col < level[row].length; col++){
@@ -11,7 +11,7 @@ function getCoordinatesForChar(level,character){
 }
 
 function getInteractableAt(x,y){
-    var interactable = getAllInteractables().filter( (char) => {
+    var interactable = getAllInteractables().filter( char => {
         return(char.x == x && char.y == y)
     }).map( possibleObject => {
         switch (level[possibleObject.y][possibleObject.x]) {
@@ -30,7 +30,7 @@ function getInteractableAt(x,y){
 
 function isColliderAt(x,y){
     var toReturn = false
-    getAllCollidables(level).forEach( (collider) => {
+    getAllCollidables().forEach( collider => {
         if(collider.x == x && collider.y == y) {
             toReturn = true
         }
@@ -38,11 +38,11 @@ function isColliderAt(x,y){
     return(toReturn)
 }
 
-function getAllCollidables(level){
+function getAllCollidables(){
     const collidableChars = ["#", "$", "D"]
     var collidables = []
-    collidableChars.forEach( (collidable) => {
-        collidables.push(getCoordinatesForChar(level,collidable))
+    collidableChars.forEach( collidable => {
+        collidables.push(getCoordinatesForChar(collidable))
     })
     return([].concat.apply([],collidables))
 }
@@ -51,13 +51,13 @@ function getAllInteractables(){
     const interactableChars = ["$", "D"]
     var interactables = []
     interactableChars.forEach( interactable => {
-        interactables.push(getCoordinatesForChar(level, interactable))
+        interactables.push(getCoordinatesForChar(interactable))
     })
     return([].concat.apply([],interactables))
 }
 
-function spawnEnemies(level, amount){
-    var spawnableLocations = getCoordinatesForChar(level," ")
+function spawnEnemies(amount){
+    var spawnableLocations = getCoordinatesForChar(" ")
     var enemies = []
     if(spawnableLocations.length > 0){
         for (var i = 0; i < amount; i++){
@@ -71,10 +71,10 @@ function spawnEnemies(level, amount){
     return(enemies)
 }
 
-function drawLevel(level){
+function drawLevel(){
     var drawables = ["#", "$", "D"]
-    drawables.forEach( (drawable) => {
-        getCoordinatesForChar(level,drawable).forEach( (coordinate) => {
+    drawables.forEach( drawable => {
+        getCoordinatesForChar(drawable).forEach( coordinate => {
             fill(tileColors[drawable])
             rect(coordinate.x*cellsize,coordinate.y*cellsize,cellsize,cellsize)
         })

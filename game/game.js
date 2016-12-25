@@ -10,7 +10,7 @@ function draw() {
         background(0)
         frameRate(30)
         noStroke()
-        drawLevel(level)
+        drawLevel()
 
         for(var i = enemies.length-1; i >= 0; i--){
             if(enemies[i].needsDestroy){
@@ -50,8 +50,8 @@ function setup() {
     enemies = []
     level = level3
 
-    spawnEnemies(level,5)
-        .forEach( (enemy) => enemies.push(enemy) )
+    spawnEnemies(5)
+        .forEach( enemy => enemies.push(enemy) )
 }
 
 function writeToStatusbar(text){
@@ -75,7 +75,7 @@ function keyPressed(){
         p.move(1,0)
     }
 
-    enemies.forEach( (enemy) => enemy.move())
+    enemies.forEach( enemy => enemy.move())
 
     needsRedraw = true
 

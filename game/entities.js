@@ -39,7 +39,7 @@ var entity = {
 
         var entityToReturn = undefined
 
-        entities.forEach( (entity) => {
+        entities.forEach( entity => {
             if(entity.x == x && entity.y == y){
                 entityToReturn = entity
             }
