@@ -68,9 +68,12 @@ function exportAsArray(){
     for(var y = 0; y < 16; y++){
         var row = ""
         for(var x = 0; x < 16; x++){
+            if((16 * y + x) % 6 == 0){
+                row += "\n\t"
+            }
             row += ("\'" + arrayRepresentation[y][x] + "\',")
         }
-        output += (row + "\n")
+        output += (row)
     }
     console.log("const charX = [" + output + "]")
 }
