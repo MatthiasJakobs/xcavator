@@ -18,7 +18,9 @@ function setup() {
 
     colorPalette.forEach(color => createNewButton(color))
 
-    setupGrid(16,16, "#FFFFFF")
+    createExportButton()
+
+    setupGrid(16,16, "#000000")
 }
 
 function createNewButton(color){
@@ -33,6 +35,18 @@ function createNewButton(color){
     td.appendChild(newDiv)
 }
 
+function createExportButton(){
+    let td = document.getElementById("buttonTD")
+    let newDiv = document.createElement("div")
+    let newButton = document.createElement("button")
+    newButton.onclick = exportAsArray
+    newButton.style.color = "#000000"
+    newButton.innerHTML = "export"
+    newDiv.appendChild(newButton)
+    td.appendChild(newDiv)
+
+}
+
 function setToColor(color){
     return function(){
         currentDrawingColor = color
@@ -41,19 +55,24 @@ function setToColor(color){
 }
 
 function draw() {
-    stroke(0)
-    fill(255)
-
-    // for(var row = 0; row < 16; row++){
-    //     for(var col = 0; col < 16; col++){
-    //         rect(row*scale, col*scale, scale, scale)
-    //     }
-    // }
+    stroke(255)
+    fill(0)
 
     populateGrid(16,16, scale)
 
     listenForMouseClicks()
+}
 
+function exportAsArray(){
+    var output = ""
+    for(var y = 0; y < 16; y++){
+        var row = ""
+        for(var x = 0; x < 16; x++){
+            row += ("\'" + arrayRepresentation[y][x] + "\',")
+        }
+        output += (row + "\n")
+    }
+    console.log("const charX = [" + output + "]")
 }
 
 function listenForMouseClicks(){

@@ -189,8 +189,12 @@ var player = {
             }
         }
 
-        fill(this.color)
-        rect(this.x*cellsize, this.y*cellsize, cellsize, cellsize)
+        for(var row = 0; row < 16; row++){
+            for(var col = 0; col < 16; col++){
+                fill(pisserSprite[16 * row + col])
+                rect((this.x*cellsize)+col, (this.y*cellsize)+row,1,1)
+            }
+        }
     },
 
     move: function(offX, offY) {
