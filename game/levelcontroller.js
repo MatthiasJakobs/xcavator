@@ -10,6 +10,17 @@ function getCoordinatesForChar(character){
     return(coordinates)
 }
 
+function getPlayerSpawnPoint(){
+    var spawnPoints = getCoordinatesForChar("@")
+
+    // There is only supposed to be one start point
+    if(spawnPoints.length <= 0){
+        return({x: 0, y: 0})
+    } else {
+        return({x: spawnPoints[0].x, y: spawnPoints[0].y})
+    }
+}
+
 function getInteractableAt(x,y){
     var interactable = getAllInteractables().filter( char => {
         return(char.x == x && char.y == y)

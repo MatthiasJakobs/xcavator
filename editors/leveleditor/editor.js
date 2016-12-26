@@ -2,7 +2,8 @@ var representation = {
     "#000000": " ",
     "#FFFFFF": "#",
     "#FFFF00": "$",
-    "#996600": "D"
+    "#996600": "D",
+    "#FF00FF": "@"
 }
 
 function listenForMouseClicks(){
@@ -35,6 +36,10 @@ function drawWall(){
 
 function drawTreasure(){
     setDrawingColor("#FFFF00")
+}
+
+function drawSpawn(){
+    setDrawingColor("#FF00FF")
 }
 
 function erase(){
@@ -72,6 +77,9 @@ function setup() {
 
     var brownButton = createButton("Door")
     brownButton.mousePressed(drawDoor)
+
+    var pinkButton = createButton("Spawn")
+    pinkButton.mousePressed(drawSpawn)
 
     var exportButton = createButton("export")
     exportButton.mousePressed(exportToJS)

@@ -39,6 +39,7 @@ function setup() {
     canvas.parent("canvas")
     p = inherit(player,entity)
 
+
     viewMask = []
     for (var y = 0; y < dimensions.height; y++){
         viewMask[y] = []
@@ -50,6 +51,10 @@ function setup() {
 
     enemies = []
     level = level3
+
+    let spawnPoint = getPlayerSpawnPoint()
+    p.x = spawnPoint.x
+    p.y = spawnPoint.y
 
     spawnEnemies(5)
         .forEach( enemy => enemies.push(enemy) )
