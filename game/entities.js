@@ -164,6 +164,10 @@ var enemy =  {
                 this.y += randomMove.y
             }
         }
+    },
+
+    show : function() {
+        renderSprite(this.x, this.y, basicEnemy)
     }
 
 
