@@ -189,13 +189,8 @@ var player = {
             }
         }
 
-        for(var row = 0; row < 16; row++){
-            for(var col = 0; col < 16; col++){
+        renderSprite(this.x, this.y, pisserSprite)
 
-                fill(pisserSprite[16 * row + col])
-                rect((this.x*cellsize)+col, (this.y*cellsize)+row,1,1)
-            }
-        }
     },
 
     move: function(offX, offY) {
@@ -231,6 +226,16 @@ var player = {
         } else {
             this.x += offX
             this.y += offY
+        }
+    }
+}
+
+function renderSprite(x,y,sprite){
+    for(var row = 0; row < cellsize; row++){
+        for(var col = 0; col < cellsize; col++){
+
+            fill(sprite[cellsize * row + col])
+            rect((x*cellsize)+col, (y*cellsize)+row,1,1)
         }
     }
 }
