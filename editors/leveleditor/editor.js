@@ -29,27 +29,6 @@ function draw() {
 
 }
 
-
-function drawWall(){
-    setDrawingColor("#FFFFFF")
-}
-
-function drawTreasure(){
-    setDrawingColor("#FFFF00")
-}
-
-function drawSpawn(){
-    setDrawingColor("#FF00FF")
-}
-
-function erase(){
-    setDrawingColor("#000000")
-}
-
-function drawDoor(){
-    setDrawingColor("#996600")
-}
-
 function exportToJS(){
     var output = []
     var test = arrayRepresentation.forEach( (row) => {
@@ -64,6 +43,10 @@ function exportToJS(){
     }).toString() + "\n]")
 }
 
+function clearGrid() {
+    setupGrid(dimensions.width, dimensions.height, "#000000")
+}
+
 function setup() {
     var canvas = createCanvas(dimensions.width*cellsize, dimensions.height*cellsize)
     canvas.parent('canvas')
@@ -75,6 +58,7 @@ function setup() {
     })
 
     createNewButton("Export", "#FFFFFF", "#000000", exportToJS)
+    createNewButton("Clear", "#FFFFFF", "#000000", clearGrid)
 
     setupGrid(dimensions.width, dimensions.height, "#000000")
 

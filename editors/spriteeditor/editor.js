@@ -18,6 +18,7 @@ function setup() {
 
     colorPalette.forEach(color => createNewButton("abrakadabra", color, color, setToColor(color)))
     createNewButton("Export", "#FFFFFF", "#000000",exportAsArray)
+    createNewButton("Clear", "#FFFFFF", "#000000",clearGrid)
 
     setupGrid(16,16, "#000000")
 }
@@ -29,6 +30,10 @@ function draw() {
     populateGrid(16,16, scale)
 
     listenForMouseClicks()
+}
+
+function clearGrid() {
+    setupGrid(16, 16, "#000000")
 }
 
 function exportAsArray(){
