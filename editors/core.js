@@ -12,6 +12,18 @@ function populateGrid(gridWidth, gridHeight, scale) {
     }
 }
 
+function createNewButton(text, foregroundColor, backgroundColor, onclick){
+    let td = document.getElementById("buttonTD")
+    let newDiv = document.createElement("div")
+    let newButton = document.createElement("button")
+    newButton.onclick = onclick
+    newButton.style.background = backgroundColor
+    newButton.style.color = foregroundColor
+    newButton.innerHTML = text
+    newDiv.appendChild(newButton)
+    td.appendChild(newDiv)
+}
+
 function setDrawingColor(color){
     currentDrawingColor = color
     updateCursorColor()
@@ -25,6 +37,13 @@ function setupGrid(gridWidth, gridHeight, defaultColor){
         for (var x = 0; x < gridWidth; x++){
             arrayRepresentation[y].push(defaultColor)
         }
+    }
+}
+
+function setToColor(color){
+    return function(){
+        currentDrawingColor = color
+        updateCursorColor()
     }
 }
 

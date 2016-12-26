@@ -1,9 +1,9 @@
 var representation = {
-    "#000000": " ",
-    "#FFFFFF": "#",
-    "#FFFF00": "$",
-    "#996600": "D",
-    "#FF00FF": "@"
+    "#000000": {char: " ", name: "Erase"},
+    "#FFFFFF": {char: "#", name: "Wall"},
+    "#FFFF00": {char: "$", name: "Treasure"},
+    "#996600": {char: "D", name: "Door"},
+    "#FF00FF": {char: "@", name: "Spawn"}
 }
 
 function listenForMouseClicks(){
@@ -55,7 +55,7 @@ function exportToJS(){
     var test = arrayRepresentation.forEach( (row) => {
         var newRow = ""
         row.forEach( (item) => {
-            newRow += representation[item]
+            newRow += representation[item].char
         })
         output.push(newRow)
     })
@@ -65,27 +65,16 @@ function exportToJS(){
 }
 
 function setup() {
-    createCanvas(dimensions.width*cellsize, dimensions.height*cellsize)
+    var canvas = createCanvas(dimensions.width*cellsize, dimensions.height*cellsize)
+    canvas.parent('canvas')
 
     currentDrawingColor = "#000000"
 
-    var whiteButton = createButton("Wall")
-    whiteButton.mousePressed(drawWall)
+    Object.keys(representation).forEach( key => {
+        createNewButton(representation[key].name, "#FFFFFF", "#000000", setToColor(key))
+    })
 
-    var yellowButton = createButton("Treasure")
-    yellowButton.mousePressed(drawTreasure)
-
-    var brownButton = createButton("Door")
-    brownButton.mousePressed(drawDoor)
-
-    var pinkButton = createButton("Spawn")
-    pinkButton.mousePressed(drawSpawn)
-
-    var exportButton = createButton("export")
-    exportButton.mousePressed(exportToJS)
-
-    var removeButton = createButton("Erase")
-    removeButton.mousePressed(erase)
+    createNewButton("Export", "#FFFFFF", "#000000", exportToJS)
 
     setupGrid(dimensions.width, dimensions.height, "#000000")
 

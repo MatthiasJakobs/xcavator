@@ -16,42 +16,10 @@ function setup() {
     var canvas = createCanvas(width,height)
     canvas.parent('canvas')
 
-    colorPalette.forEach(color => createNewButton(color))
-
-    createExportButton()
+    colorPalette.forEach(color => createNewButton("abrakadabra", color, color, setToColor(color)))
+    createNewButton("Export", "#FFFFFF", "#000000",exportAsArray)
 
     setupGrid(16,16, "#000000")
-}
-
-function createNewButton(color){
-    let td = document.getElementById("buttonTD")
-    let newDiv = document.createElement("div")
-    let newButton = document.createElement("button")
-    newButton.onclick = setToColor(color)
-    newButton.style.background = color
-    newButton.style.color = color
-    newButton.innerHTML = "abrakadabra"
-    newDiv.appendChild(newButton)
-    td.appendChild(newDiv)
-}
-
-function createExportButton(){
-    let td = document.getElementById("buttonTD")
-    let newDiv = document.createElement("div")
-    let newButton = document.createElement("button")
-    newButton.onclick = exportAsArray
-    newButton.style.color = "#000000"
-    newButton.innerHTML = "export"
-    newDiv.appendChild(newButton)
-    td.appendChild(newDiv)
-
-}
-
-function setToColor(color){
-    return function(){
-        currentDrawingColor = color
-        updateCursorColor()
-    }
 }
 
 function draw() {
