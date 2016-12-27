@@ -3,6 +3,7 @@ var enemies;
 var level;
 var needsRedraw = true
 var viewMask;
+var levelprogression;
 
 function draw() {
     if(needsRedraw){
@@ -37,9 +38,26 @@ function draw() {
 function setup() {
     var canvas = createCanvas(dimensions.width*cellsize, dimensions.height*cellsize)
     canvas.parent("canvas")
+
     p = inherit(player,entity)
 
+    levelprogression = [level1, level2, level3]
 
+    loadLevel()
+
+}
+
+function loadLevel(){
+
+    // Try loading next level. If current level is final level -> finish game
+    if(levelprogression.length > 0){
+        level = levelprogression.shift()
+    } else {
+        alert("You've beaten the game!")
+        location.reload()
+    }
+
+    // reset viewmask
     viewMask = []
     for (var y = 0; y < dimensions.height; y++){
         viewMask[y] = []
@@ -48,16 +66,16 @@ function setup() {
         }
     }
 
-
+    // reset enemies
     enemies = []
-    level = level3
+    spawnEnemies(5)
+        .forEach( enemy => enemies.push(enemy) )
 
+    // set starting position of player
     let spawnPoint = getPlayerSpawnPoint()
     p.x = spawnPoint.x
     p.y = spawnPoint.y
 
-    spawnEnemies(5)
-        .forEach( enemy => enemies.push(enemy) )
 }
 
 function writeToStatusbar(text){

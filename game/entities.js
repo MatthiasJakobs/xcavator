@@ -217,15 +217,14 @@ var player = {
                         } else {
                             writeToStatusbar("You found nothing...")
                         }
+                        level[y] = changeStringAtIndex(level[y], x, " ")
                         break
                     case "door":
-                        location.reload()
+                        loadLevel()
                         break
                     default:
                         console.log("found interactable, but did not specify type")
                 }
-
-                level[y] = changeStringAtIndex(level[y], x, " ")
             }
         } else {
             this.x += offX
