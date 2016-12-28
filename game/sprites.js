@@ -1,3 +1,4 @@
+/* create image object from path */
 function loadImg(path) {
     var img = new Image();
     img.src = path;
@@ -17,8 +18,10 @@ function sprite(options) {
     that.height = options.height;
     that.image = options.image;
     
-    that.render = function (x, y) {
-        drawingContext.drawImage(that.image, 0, 0, that.width, that.height, x, y, that.width, that.height);
+    /* render sprite to given (absolute) x and y position
+     * (cells are not considered!) */
+    that.render = function (x, y, frame = 0) {
+        drawingContext.drawImage(that.image, frame * that.width, 0, that.width, that.height, x, y, that.width, that.height);
     };
     
     return that;

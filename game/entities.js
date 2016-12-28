@@ -171,7 +171,7 @@ var enemy =  {
             width: 16,
             height: 16,
             image: artwork.enemy
-        }).render(this.x * cellsize, this.y * cellsize);
+        }).render(this.x * cellsize, this.y * cellsize, global_stepcount % 2);
     }
 
 

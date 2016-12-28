@@ -4,6 +4,7 @@ var level;
 var needsRedraw = true
 var viewMask;
 var levelprogression;
+var global_stepcount = 0;
 
 function draw() {
     if(needsRedraw){
@@ -106,6 +107,7 @@ function keyPressed(){
 
     enemies.forEach( enemy => enemy.move())
 
+    global_stepcount++;
     needsRedraw = true
 
 }
