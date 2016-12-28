@@ -167,7 +167,11 @@ var enemy =  {
     },
 
     show : function() {
-        renderSprite(this.x, this.y, basicEnemy)
+        sprite({
+            width: 16,
+            height: 16,
+            image: artwork.enemy
+        }).render(this.x * cellsize, this.y * cellsize);
     }
 
 
@@ -193,7 +197,11 @@ var player = {
             }
         }
 
-        renderSprite(this.x, this.y, pisserSprite)
+        sprite({
+            width: 16,
+            height: 16,
+            image: artwork.player
+        }).render(this.x * cellsize, this.y * cellsize);
 
     },
 
@@ -229,16 +237,6 @@ var player = {
         } else {
             this.x += offX
             this.y += offY
-        }
-    }
-}
-
-function renderSprite(x,y,sprite){
-    for(var row = 0; row < cellsize; row++){
-        for(var col = 0; col < cellsize; col++){
-
-            fill(sprite[cellsize * row + col])
-            rect((x*cellsize)+col, (y*cellsize)+row,1,1)
         }
     }
 }
